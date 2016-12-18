@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+$: << ::File::expand_path("../", __FILE__)
+
+require "yaml"
+require 'optparse'
+require 'eventql'
+require "backend/backend.rb"
+
+# parse flags
+flags = {}
+
+flag_parser = OptionParser.new do |opts|
+  opts.banner = "Usage: csgolytics [options]"
+
+  opts.on("-v", "--[no-]verbose", "Print debug output") do |val|
+    flags[:verbose] = val
+  end
+
+  opts.on("-h", "--help", "You're reading it") do
+    puts opts
+    exit 0
+  end
+
+  opts.on("--eventql_host=HOST", "EventQL host") do |val|
+    flags[:eventql_host] = val
+  end
+
+  opts.on("--eventql_port=PORT", "EventQL port") do |val|
+    flags[:eventql_port] = val
+  end
+
+  opts.on("--eventql_database=DATABASE", "EventQL database") do |val|
+    flags[:eventql_database] = val
+  end
+
+  opts.on("--eventql_auth_token=TOKEN", "EventQL auth_token") do |val|
+    flags[:eventql_auth_token] = val
+  end
+
+end
+
+flag_parser.parse!
+
+# load server config
+config = YAML.load_file(::File::expand_path("../config/config.yml", __FILE__))
+
+# init eventql client
+evql = EventQL.connect(
+  :host => flags[:eventql_host],
+  :port => flags[:eventql_port],
+  :database => flags[:eventql_database],
+  :auth_token => flags[:eventql_auth_token]
+)
+
+# start backend
+backend = CSGOLytics::Backend.new(config)
+backend.start
+
+
