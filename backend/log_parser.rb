@@ -13,7 +13,7 @@ class CSGOLytics::LogParser
 private
 
   def parse_kill(line)
-    r = /^L (?<time>\d{2}\/\d{2}\/\d{4} - \d{2}:\d{2}:\d{2}): "(?<attacker_name>.*)<\d+><(?<attacker_steamid>BOT|(STEAM_\d+:\d+:\d+))><(?<attacker_team>CT|TERRORIST)>" \[(?<attacker_coords>-?\d+ -?\d+ -?\d+)\] killed "(?<victim_name>.*)<\d+><(?<victim_steamid>BOT|(STEAM_\d+:\d+:\d+))><(?<victim_team>CT|TERRORIST)>" \[(?<victim_coords>-?\d+ -?\d+ -?\d+)\] with "(?<weapon>\w+)" ?(?<headshot>\(headshot\))?$/
+    r = /^L (?<time>\d{2}\/\d{2}\/\d{4} - \d{2}:\d{2}:\d{2}): "(?<attacker_name>.*)<\d+><(?<attacker_steamid>BOT|(STEAM_\d+:\d+:\d+))><(?<attacker_team>CT|TERRORIST)>" \[(?<attacker_coords>-?\d+ -?\d+ -?\d+)\] killed "(?<victim_name>.*)<\d+><(?<victim_steamid>BOT|(STEAM_\d+:\d+:\d+))><(?<victim_team>CT|TERRORIST)>" \[(?<victim_coords>-?\d+ -?\d+ -?\d+)\] with "(?<weapon>\w+)" ?\(?(?<headshot>headshot)? ?(?<penetrated>penetrated)?\)?$/
 
     m = r.match(line)
     if m
@@ -36,7 +36,8 @@ private
 	:victim_coords_y => victim_coords[1].to_i,
 	:victim_coords_z => victim_coords[2].to_i,
         :weapon => m[:weapon],
-        :headshot => !!m[:headshot]
+        :headshot => !!m[:headshot],
+        :penetrated => !!m[:penetrated]
       }
     end
   end
