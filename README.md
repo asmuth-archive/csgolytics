@@ -28,7 +28,7 @@ You also have to add an entry for each gameserver in `config/config.yml`. **It i
 Game Events (JSON)
 ------------------
 
-#### Kill Event
+#### Kill Event (csgo_kills)
 
     {  
        "event":"kill",
