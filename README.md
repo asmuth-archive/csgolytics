@@ -10,7 +10,7 @@ Usage
 
 CSGOLytics requires a running [EventQL](https://eventql.io/) database. You can start the CSGOLytics app with this command:
 
-    $ ./csgolytics.rb \
+    $ ./csgolytics \
           --listen_udp 0.0.0.0:3764 \
           --listen_http 0.0.0.0:8080 \
           --eventql_addr localhost:9175 \
