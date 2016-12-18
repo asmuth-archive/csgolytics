@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 require "socket"
 require "backend/log_listener"
 
