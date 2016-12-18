@@ -1,4 +1,6 @@
 require "socket"
+require "date"
+require "time"
 
 module CSGOLytics; end
 
@@ -22,7 +24,7 @@ private
 
       return {
         :event => "kill",
-        :time => m[:time],
+        :time => parse_time(m[:time]).utc.iso8601,
         :attacker_name => m[:attacker_name],
         :attacker_steamid => m[:attacker_steamid],
         :attacker_team => normalize_team(m[:attacker_team]),
@@ -40,6 +42,10 @@ private
         :penetrated => !!m[:penetrated]
       }
     end
+  end
+
+  def parse_time(time_str)
+    DateTime.strptime("#{time_str} #{Time.now.strftime("%:z")}", "%m/%d/%Y - %H:%M:%S %z").to_time
   end
 
   def normalize_team(team)
