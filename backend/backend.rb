@@ -6,10 +6,10 @@ module CSGOLytics; end
 
 class CSGOLytics::Backend
 
-  def initialize
-    @log_listener = LogListener.new
-    @log_listener.on_logline do |logline, remote_addr|
-      puts logline
+  def initialize(config)
+    @log_listener = CSGOLytics::LogListener.new(config)
+    @log_listener.on_logline do |logline, server_id|
+      puts "#{server_id} => #{logline}"
     end
   end
 

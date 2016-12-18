@@ -1,0 +1,4 @@
+servers:
+  -
+    server_id: italy
+    remote_addrs: ["176.9.105.73:27017"]

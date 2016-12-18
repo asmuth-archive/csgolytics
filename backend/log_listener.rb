@@ -7,10 +7,17 @@ class CSGOLytics::LogListener
 
   REMOTE_LOG_PKT_HEADER = "\xff\xff\xff\xffR"
 
-  def initialize
+  def initialize(config)
     @ssock = UDPSocket.new
     @ssock.bind("0.0.0.0", 3764)
     @callbacks = []
+
+    @remotes_map = {}
+    config["servers"].each do |server|
+      server["remote_addrs"].each do |remote_addr|
+        @remotes_map[remote_addr] = server["server_id"]
+      end
+    end
   end
 
   def listen
@@ -23,8 +30,18 @@ class CSGOLytics::LogListener
         "#{raddr[3]}:#{raddr[1]}"
       ].uniq
 
+      remote_server_id = nil
+      remote_addrs.each do |r|
+	remote_server_id ||= @remotes_map[r]
+      end
+     
+      unless remote_server_id
+        $stderr.puts "WARNING: unknown server: ${remote_addrs.inspect}"
+	next
+      end
+
       unless payload.start_with?(REMOTE_LOG_PKT_HEADER)
-        # FIXME log warning
+        $stderr.puts "WARNING: received invalid log packet"
         next
       end
 
@@ -34,7 +51,7 @@ class CSGOLytics::LogListener
       end
 
       @callbacks.each do |cb|
-        cb[logline, remote_addrs]
+        cb[logline, remote_server_id]
       end
     end
   end
@@ -44,9 +61,3 @@ class CSGOLytics::LogListener
   end
 
 end
-
-l = CSGOLytics::LogListener.new
-l.on_logline do |logline, remote_addr|
-  puts logline
-end
-l.listen
