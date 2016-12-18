@@ -25,7 +25,7 @@ To use CSGOLytics, you have to enable detailed logging in your dedicated server.
 
 The preferred way of sending the CS:GO logfiles to csgolytics is by using the included `csgolytics_logtail` script. To start the logtail script, execute this command (replace x.x.x.x with the address on which csgolytics is listening for http connections):
 
-    $ scripts/csgolytics_logtail --logdir /path/to/csgo/server/csgo/logs --target x.x.x.x:8080 
+    $ scripts/csgolytics_logtail --logdir /path/to/csgo/server/csgo/logs --target http://x.x.x.x:8080
     
 #### Sending log data via UDP
 
