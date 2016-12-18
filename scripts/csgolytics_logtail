@@ -19,7 +19,7 @@ flag_parser = OptionParser.new do |opts|
     @logdir = val
   end
 
-  opts.on("--target=ADDR", "http://localhost:8080") do |val|
+  opts.on("--target=ADDR", "http://localhost:3765") do |val|
     @target_addr = URI.parse(val)
   end
 

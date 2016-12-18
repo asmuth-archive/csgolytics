@@ -22,7 +22,7 @@ class CSGOLytics::Backend
     @feed_upload = CSGOLytics::FeedUpload.new(evql, @ev_dispatch)
 
     # init http server
-    @http_server = CSGOLytics::HTTPServer.new(self, 8080)
+    @http_server = CSGOLytics::HTTPServer.new(self, 3765)
 
     # wire up loglistener
     #@log_listener = CSGOLytics::LogListener.new(config)
