@@ -23,8 +23,8 @@ To use CSGOLytics, you have to enable UDP logging in your dedicated server. You 
 You also have to add an entry for each gameserver in `config/config.yml`. **It is important to enter the correct remote address for each gameserver in the config.yml file, otherwise incoming data will not be accepted**
 
 
-JSON Events
------------
+Game Events (JSON)
+------------------
 
 #### Kill Event
 
