@@ -1,9 +1,11 @@
 #!/usr/bin/env ruby
 $: << ::File::expand_path("../", __FILE__)
 
+require "rubygems"
 require "yaml"
 require 'optparse'
 require 'eventql'
+require 'webrick'
 require "backend/backend"
 require "backend/schema_manager"
 
@@ -56,8 +58,10 @@ evql = EventQL.connect(
   :auth_token => flags[:eventql_auth_token]
 )
 
+
 # start backend
 backend = CSGOLytics::Backend.new(evql, config)
+trap("INT") { backend.shutdown }
 backend.start
 
 

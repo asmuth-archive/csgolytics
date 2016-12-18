@@ -31,12 +31,12 @@ class CSGOLytics::LogListener
 
       remote_server_id = nil
       remote_addrs.each do |r|
-	remote_server_id ||= @remotes_map[r]
+      remote_server_id ||= @remotes_map[r]
       end
-     
+
       unless remote_server_id
         $stderr.puts "WARNING: unknown server: #{remote_addrs.inspect}"
-	next
+        next
       end
 
       unless payload.start_with?(REMOTE_LOG_PKT_HEADER)
