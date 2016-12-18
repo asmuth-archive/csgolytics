@@ -9,11 +9,16 @@ class CSGOLytics::HTTPServlet < WEBrick::HTTPServlet::AbstractServlet
 
   def do_POST (request, response)
     if request.path == "/api/v1/insert_logline"
-      @backend.insert_logline request.body
-      return 200, 'text/plain', 'ok'
-    end
+      @backend.insert_logline request.body.force_encoding("utf-8")
+      response.status = 201
+      response.body = "ok"
+      response.content_type = "text/plan"
+      return
+     end
 
-    return 404, 'text/plain', 'not found'
+    response.status = 404
+    response.body = "not found"
+    response.content_type = "text/plan"
   end
 
 end

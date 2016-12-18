@@ -1,5 +1,4 @@
 require "securerandom"
-require "pp"
 
 module CSGOLytics; end
 
@@ -26,7 +25,6 @@ class CSGOLytics::FeedUpload
     ev[:time_key] = (Time.parse(ev[:time]).to_i / PARTITION_SIZE) * PARTITION_SIZE
     ev[:event_id] = SecureRandom.hex[0..8]
 
-    pp ev
     @db.insert!([{ :table => table, :database => @db.get_database, :data => ev }])
   end
 
