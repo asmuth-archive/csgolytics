@@ -4,7 +4,8 @@ $: << ::File::expand_path("../", __FILE__)
 require "yaml"
 require 'optparse'
 require 'eventql'
-require "backend/backend.rb"
+require "backend/backend"
+require "backend/schema_manager"
 
 # parse flags
 flags = {}
@@ -41,16 +42,26 @@ end
 
 flag_parser.parse!
 
+$stderr.puts "Starting CSGOLytics v0.1"
+
 # load server config
 config = YAML.load_file(::File::expand_path("../config/config.yml", __FILE__))
 
 # init eventql client
+$stderr.puts "Connecting to EventQL at #{flags[:eventql_host]}"
 evql = EventQL.connect(
   :host => flags[:eventql_host],
   :port => flags[:eventql_port],
   :database => flags[:eventql_database],
   :auth_token => flags[:eventql_auth_token]
 )
+
+# migrate database schemas
+schema_manager = CSGOLytics::SchemaManager.new(
+    evql,
+    ::File::expand_path("../db", __FILE__))
+
+schema_manager.migrate!
 
 # start backend
 backend = CSGOLytics::Backend.new(config)
