@@ -26,8 +26,7 @@ class CSGOLytics::SchemaManager
     list_tables_qry = @db.query("show tables;")
     list_tables_res = list_tables_qry.execute!
 
-    actual_tables = list_tables_res[0]["rows"]
-
+    actual_tables = list_tables_res[0]["rows"].map(&:first)
     (@tables - actual_tables).each do |tbl|
       create_table!(tbl)
     end
