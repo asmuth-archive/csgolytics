@@ -6,6 +6,14 @@ CSGOLytics imports the Valve SRCDS/CS:GO server logfile and writes all game even
 Usage
 -----
 
+CSGOLytics requires a running EventQL database. You can start the CSGOLytics app with this command:
+
+    $ ./csgolytics.rb \
+          --listen_udp 0.0.0.0:3764 \
+          --listen_http 0.0.0.0:8080 \
+          --eventql_addr localhost:9175 \
+          --eventql_database csgolytics
+
 To use CSGOLytics, you have to enable UDP logging in your dedicated server. You can either execute these lines via rcon or put them into your `autoexec.cfg` file.
 
     > rcon logaddress_add x.x.x.x:3764
