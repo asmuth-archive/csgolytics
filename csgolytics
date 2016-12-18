@@ -56,15 +56,8 @@ evql = EventQL.connect(
   :auth_token => flags[:eventql_auth_token]
 )
 
-# migrate database schemas
-schema_manager = CSGOLytics::SchemaManager.new(
-    evql,
-    ::File::expand_path("../db", __FILE__))
-
-schema_manager.migrate!
-
 # start backend
-backend = CSGOLytics::Backend.new(config)
+backend = CSGOLytics::Backend.new(evql, config)
 backend.start
 
 
