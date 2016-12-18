@@ -1,12 +1,14 @@
 CSGOLytics
 ==========
 
-CSGOLytics imports the Valve SRCDS/CS:GO server logfile and writes all game events as structured data (JSON) into a backend database. The web analytics dashboards are then driven by simple database queries over the stored game events.
+CSGOLytics imports the Valve SRCDS/CS:GO server logfile and writes all game events as structured data (JSON) into a backend database ([EventQL](https://eventql.io/)).
+
+![Screenshot](https://raw.githubusercontent.com/paulasmuth/csgolytics/master/screenshot.png)
 
 Usage
 -----
 
-CSGOLytics requires a running EventQL database. You can start the CSGOLytics app with this command:
+CSGOLytics requires a running [EventQL](https://eventql.io/ database. You can start the CSGOLytics app with this command:
 
     $ ./csgolytics.rb \
           --listen_udp 0.0.0.0:3764 \
