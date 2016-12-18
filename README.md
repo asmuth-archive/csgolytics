@@ -16,13 +16,24 @@ CSGOLytics requires a running [EventQL](https://eventql.io/) database. You can s
           --eventql_addr localhost:9175 \
           --eventql_database csgolytics
 
-To use CSGOLytics, you have to enable UDP logging in your dedicated server. You can either execute these lines via rcon or put them into your `autoexec.cfg` file.
+To use CSGOLytics, you have to enable detailed logging in your dedicated server. You can either execute these lines via rcon or put them into your `autoexec.cfg` file.
 
-    > rcon logaddress_add x.x.x.x:3764
     > rcon log on
     > rcon mp_logdetail 3
 
-You also have to add an entry for each gameserver in `config/config.yml`. **It is important to enter the correct remote address for each gameserver in the config.yml file, otherwise incoming data will not be accepted**
+#### Sending log data via logtail
+
+The preferred way of sending the CS:GO logfiles to csgolytics is by using the included `csgolytics_logtail` script. To start the logtail script, execute this command (replace x.x.x.x with the address on which csgolytics is listening for http connections):
+
+    $ scripts/csgolytics_logtail --logdir /path/to/csgo/server/csgo/logs --target x.x.x.x:8080 
+    
+#### Sending log data via UDP
+
+Alternatively, you can use the built-in remote logging support to receive the log data via udp. However this is less reliable. Execute this line via rcon or put it into the `autoexec.cfg` file (replace x.x.x.x with the address on which csgolytics ist listening for udp packets)
+
+    > rcon logaddress_add x.x.x.x:3764
+    
+When using UDP logging, you have to specify a source address to server_id mapping. To do so ... [FIXME}
 
 
 Game Events (JSON)
