@@ -35,7 +35,7 @@ class CSGOLytics::LogListener
       end
      
       unless remote_server_id
-        $stderr.puts "WARNING: unknown server: ${remote_addrs.inspect}"
+        $stderr.puts "WARNING: unknown server: #{remote_addrs.inspect}"
 	next
       end
 
