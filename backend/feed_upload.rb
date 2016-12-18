@@ -1,6 +1,14 @@
+require "securerandom"
+
 module CSGOLytics; end
 
 class CSGOLytics::FeedUpload
+
+  PARTITION_SIZE = 3600 * 24
+
+  EVENT_TABLE_MAP = {
+    "kill" => "csgo_kills" 
+  }
 
   def initialize(evql, dispatch)
     dispatch.subscribe do |ev|
@@ -9,7 +17,13 @@ class CSGOLytics::FeedUpload
   end
 
   def upload_event(ev)
-    puts "UPLOAD EVENT: #{ev.inspect}"
+    table = EVENT_TABLE_MAP[ev[:event]]
+    return unless table
+
+    ev[:time_key] = (Time.parse(ev[:time]).to_i / PARTITION_SIZE) * PARTITION_SIZE
+    ev[:event_id] = SecureRandom.hex[0..8]
+
+    @db.insert!([{ :table => table, :data => ev }])
   end
 
 end
