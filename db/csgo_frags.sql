@@ -9,7 +9,7 @@ CREATE TABLE csgo_frags (
   victim_steamid string,
   victim_team string,
   weapon string,
-  headshoot bool,
+  headshot bool,
   penetrated bool,
   distance double,
   PRIMARY KEY (time, event_id)
