@@ -5,35 +5,46 @@ CSGOLytics imports the Valve SRCDS/CS:GO (Counter Strike Global Offense) server 
 
 ![Screenshot](https://raw.githubusercontent.com/paulasmuth/csgolytics/master/screenshot.png)
 
+Installation
+------------
+
+The most simple way to install CSGOLytics is by using rubygems:
+
+    $ gem install csgolytics
+    
 Usage
 -----
 
-CSGOLytics requires a running [EventQL](https://eventql.io/) database. You can start the CSGOLytics app with this command:
-
-    $ ./csgolytics \
-          --listen_udp 0.0.0.0:3764 \
-          --listen_http 0.0.0.0:3765 \
-          --eventql_addr localhost:9175 \
-          --eventql_database csgolytics
-
-To use CSGOLytics, you have to enable detailed logging in your dedicated server. You can either execute these lines via rcon or put them into your `autoexec.cfg` file.
+CSGOLytics requires a running [EventQL](https://eventql.io/) database. To use CSGOLytics, you also have to enable detailed logging in your dedicated server. You can either execute these lines via rcon or put them into your `autoexec.cfg` file.
 
     > rcon log on
     > rcon mp_logdetail 3
 
 #### Sending log data via logtail
 
-The preferred way of sending the CS:GO logfiles to csgolytics is by using the included `csgolytics_logtail` script. To start the logtail script, execute this command (replace x.x.x.x with the address on which csgolytics is listening for http connections):
+The preferred way of sending the CS:GO logfiles to csgolytics is by using the included `csgolytics-import` tool. To start the import tool, execute this command:
 
-    $ scripts/csgolytics_logtail --logdir /path/to/csgo/server/csgo/logs --target http://x.x.x.x:3765
+    $ ./csgolytics-import \
+          --logdir /path/to/csgo/server/csgo/logs \
+          --eventql_host localhost \
+          --eventql_port 9175 \
+          --eventql_database csgolytics
     
 #### Sending log data via UDP
 
-Alternatively, you can use the built-in remote logging support to receive the log data via udp. However this is less reliable. Execute this line via rcon or put it into the `autoexec.cfg` file (replace x.x.x.x with the address on which csgolytics ist listening for udp packets)
+Alternatively, you can use the built-in remote logging support to receive the log data via udp. However this is less reliable. To use UDP logging, start the import tool with this command.
+    
+    $ ./csgolytics-import \
+          --listen_udp 0.0.0.0:3764 \
+          --eventql_host localhost \
+          --eventql_port 9175 \
+          --eventql_database csgolytics
+         
+
+Then execute this line via rcon or put it into the `autoexec.cfg` file (replace x.x.x.x with the address on which csgolytics-import is listening for udp packets)
 
     > rcon logaddress_add x.x.x.x:3764
     
-When using UDP logging, you have to specify a source address to server_id mapping. To do so ... [FIXME}
 
 
 Game Events (JSON)
