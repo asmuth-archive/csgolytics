@@ -6,8 +6,8 @@ require "yaml"
 require 'optparse'
 require 'eventql'
 require 'webrick'
-require "backend/backend"
-require "backend/schema_manager"
+require "csgolytics/backend"
+require "csgolytics/schema_manager"
 
 # parse flags
 flags = {}
