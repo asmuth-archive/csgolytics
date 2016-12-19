@@ -66,6 +66,7 @@ class CSGOLytics::LogReader
         end
       rescue Exception => e
         $stderr.puts "ERROR: #{e.to_s}"
+        $stderr.puts e.backtrace
       end
 
       sleep POLL_INTERVAL
