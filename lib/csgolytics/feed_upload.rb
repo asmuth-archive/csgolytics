@@ -8,7 +8,7 @@ class CSGOLytics::FeedUpload
   PARTITION_SIZE = 3600 * 24
 
   EVENT_TABLE_MAP = {
-    "kill" => "csgo_kills"
+    "frag" => "csgo_frags"
   }
 
   def initialize(db)

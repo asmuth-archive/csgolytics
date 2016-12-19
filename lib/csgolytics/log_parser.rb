@@ -8,13 +8,13 @@ class CSGOLytics::LogParser
 
   def parse(line)
     ev = nil
-    return ev if ev = parse_kill(line)
+    return ev if ev = parse_frag(line)
     return ev
   end
 
 private
 
-  def parse_kill(line)
+  def parse_frag(line)
     r = /^L (?<time>\d{2}\/\d{2}\/\d{4} - \d{2}:\d{2}:\d{2}): "(?<attacker_name>.*)<\d+><(?<attacker_steamid>BOT|(STEAM_\d+:\d+:\d+))><(?<attacker_team>CT|TERRORIST)>" \[(?<attacker_coords>-?\d+ -?\d+ -?\d+)\] killed "(?<victim_name>.*)<\d+><(?<victim_steamid>BOT|(STEAM_\d+:\d+:\d+))><(?<victim_team>CT|TERRORIST)>" \[(?<victim_coords>-?\d+ -?\d+ -?\d+)\] with "(?<weapon>\w+)" ?\(?(?<headshot>headshot)? ?(?<penetrated>penetrated)?\)?$/
 
     m = r.match(line)
@@ -23,7 +23,7 @@ private
       victim_coords = m[:victim_coords].split
 
       return {
-        :event => "kill",
+        :event => "frag",
         :time => parse_time(m[:time]).utc.iso8601,
         :attacker_name => m[:attacker_name],
         :attacker_steamid => m[:attacker_steamid],

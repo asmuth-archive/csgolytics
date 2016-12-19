@@ -39,10 +39,10 @@ When using UDP logging, you have to specify a source address to server_id mappin
 Game Events (JSON)
 ------------------
 
-#### Kill Event (csgo_kills)
+#### Frag Event (csgo_frags)
 
     {  
-       "event":"kill",
+       "event":"frag",
        "time":"2016-12-18T11:51:19Z",
        "attacker_name":"le_fnord",
        "attacker_steamid":"STEAM_1:0:123456789",

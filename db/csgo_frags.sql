@@ -1,4 +1,4 @@
-CREATE TABLE csgo_kills (
+CREATE TABLE csgo_frags (
   time_key uint64,
   event_id string,
   server_id string,
@@ -12,5 +12,6 @@ CREATE TABLE csgo_kills (
   weapon string,
   headshoot bool,
   penetrated bool,
+  distance double,
   PRIMARY KEY (time_key, event_id)
 ) WITH user_defined_partitions = "true";
