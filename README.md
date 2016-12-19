@@ -73,6 +73,19 @@ Game Events (JSON)
        "server_id":"aim"
     }
 
+#### Assist Event (csgo_assists)
+
+    {  
+       "event":"assist",
+       "time":"2016-12-18T11:51:19Z",
+       "attacker_name":"le_fnord",
+       "attacker_steamid":"STEAM_1:0:123456789",
+       "attacker_team":"CT",
+       "victim_name":"Allen",
+       "victim_steamid":"BOT",
+       "victim_team":"T"
+    }
+
 
 License
 -------
