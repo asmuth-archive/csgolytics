@@ -1,7 +1,0 @@
-servers:
-  -
-    server_id: italy
-    remote_addrs: ["176.9.105.73:27017"]
-  -
-    server_id: aim
-    remote_addrs: ["176.9.105.73:27018"]
