@@ -15,15 +15,6 @@ flags = {}
 flag_parser = OptionParser.new do |opts|
   opts.banner = "Usage: csgolytics [options]"
 
-  opts.on("-v", "--[no-]verbose", "Print debug output") do |val|
-    flags[:verbose] = val
-  end
-
-  opts.on("-h", "--help", "You're reading it") do
-    puts opts
-    exit 0
-  end
-
   opts.on("--eventql_host=HOST", "EventQL host") do |val|
     flags[:eventql_host] = val
   end
@@ -40,14 +31,18 @@ flag_parser = OptionParser.new do |opts|
     flags[:eventql_auth_token] = val
   end
 
+  opts.on("-v", "--[no-]verbose", "Print debug output") do |val|
+    flags[:verbose] = val
+  end
+
+  opts.on("-h", "--help", "You're reading it") do
+    puts opts
+    exit 0
+  end
+
 end
 
 flag_parser.parse!
-
-$stderr.puts "Starting CSGOLytics v0.1"
-
-# load server config
-config = YAML.load_file(::File::expand_path("../config/config.yml", __FILE__))
 
 # init eventql client
 $stderr.puts "Connecting to EventQL at #{flags[:eventql_host]}"
@@ -57,7 +52,6 @@ evql = EventQL.connect(
   :database => flags[:eventql_database],
   :auth_token => flags[:eventql_auth_token]
 )
-
 
 # start backend
 backend = CSGOLytics::Backend.new(evql, config)
