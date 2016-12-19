@@ -20,8 +20,8 @@ private
 
     m = r.match(line)
     if m
-      attacker_coords = m[:attacker_coords].split
-      victim_coords = m[:victim_coords].split
+      attacker_coords = m[:attacker_coords].split.map(&:to_i)
+      victim_coords = m[:victim_coords].split.map(&:to_i)
 
       return {
         :event => "frag",
@@ -29,18 +29,19 @@ private
         :attacker_name => m[:attacker_name],
         :attacker_steamid => m[:attacker_steamid],
         :attacker_team => normalize_team(m[:attacker_team]),
-        :attacker_coords_x => attacker_coords[0].to_i,
-        :attacker_coords_y => attacker_coords[1].to_i,
-        :attacker_coords_z => attacker_coords[2].to_i,
+        :attacker_coords_x => attacker_coords[0],
+        :attacker_coords_y => attacker_coords[1],
+        :attacker_coords_z => attacker_coords[2],
         :victim_name => m[:victim_name],
         :victim_steamid => m[:victim_steamid],
         :victim_team => normalize_team(m[:victim_team]),
-        :victim_coords_x => victim_coords[0].to_i,
-        :victim_coords_y => victim_coords[1].to_i,
-        :victim_coords_z => victim_coords[2].to_i,
+        :victim_coords_x => victim_coords[0],
+        :victim_coords_y => victim_coords[1],
+        :victim_coords_z => victim_coords[2],
         :weapon => m[:weapon],
         :headshot => !!m[:headshot],
-        :penetrated => !!m[:penetrated]
+        :penetrated => !!m[:penetrated],
+        :distance => euclidean_distance(attacker_coords, victim_coords)
       }
     end
   end
@@ -74,6 +75,10 @@ private
       when "TERRORIST" then return "T"
       else return "?"
     end
+  end
+
+  def euclidean_distance(p1, p2)
+    Math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2 + (p1[2] - p2[2]) ** 2)
   end
 
 end
