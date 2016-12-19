@@ -52,8 +52,11 @@ class CSGOLytics::LogReader
           f = File.open(fpath)
           f.seek(offset)
           while l = (f.readline rescue nil)
+            l.encode!('UTF-8', 'UTF-8', :invalid => :replace)
+            l.chomp!
+
             @callbacks.each do |cb|
-              cb[l.chomp]
+              cb[l]
             end
 
             File.write(offset_file_path + "~", f.tell)
