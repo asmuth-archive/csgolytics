@@ -12,17 +12,23 @@ class CSGOLytics::FeedUpload
     "assist" => "csgo_assists"
   }
 
-  def initialize(db, server_id = nil)
+  def initialize(db, server_id = nil, tee_file = nil)
     @db = db
     @server_id = server_id
+    @tee_file = tee_file ? File.open(tee_file, "a+") : nil
     @log_parser = CSGOLytics::LogParser.new
   end
 
   def insert_logline(logline, event_id = nil)
+    if @tee_file
+      @tee_file.write(logline + "\n")
+    end
+
     ev = @log_parser.parse(logline)
     unless ev
       return
     end
+
 
     if event_id
       ev[:event_id] = event_id
