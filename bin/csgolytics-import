@@ -5,7 +5,6 @@ require "rubygems"
 require "yaml"
 require 'optparse'
 require 'eventql'
-require 'webrick'
 require "csgolytics/schema_manager"
 require "csgolytics/feed_upload"
 require "csgolytics/log_reader"
