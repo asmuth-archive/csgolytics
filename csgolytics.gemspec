@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "csgolytics"
-  s.version = "0.0.2"
+  s.version = "0.0.3"
   s.authors = ["Paul Asmuth"]
   s.date = "2016-12-19"
   s.description = "CS:GO Analaytics with EventQL"
