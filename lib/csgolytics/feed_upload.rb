@@ -45,8 +45,6 @@ private
       return
     end
 
-    ev[:time_key] = (Time.parse(ev[:time]).to_i / PARTITION_SIZE) * PARTITION_SIZE
-
     @db.insert!([{ :table => table, :database => @db.get_database, :data => ev }])
   end
 

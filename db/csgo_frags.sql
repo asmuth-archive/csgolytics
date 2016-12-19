@@ -1,8 +1,7 @@
 CREATE TABLE csgo_frags (
-  time_key uint64,
+  time datetime,
   event_id string,
   server_id string,
-  time datetime,
   attacker_name string,
   attacker_steamid string,
   attacker_team string,
@@ -13,5 +12,5 @@ CREATE TABLE csgo_frags (
   headshoot bool,
   penetrated bool,
   distance double,
-  PRIMARY KEY (time_key, event_id)
-) WITH user_defined_partitions = "true";
+  PRIMARY KEY (time, event_id)
+);
