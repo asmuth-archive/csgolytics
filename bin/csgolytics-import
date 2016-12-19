@@ -11,7 +11,11 @@ require "csgolytics/feed_upload"
 require "csgolytics/log_reader"
 
 # parse flags
-flags = {}
+flags = {
+  :eventql_host => "localhost",
+  :eventql_port => "9175",
+  :eventql_database => "csgolytics"
+}
 
 flag_parser = OptionParser.new do |opts|
   opts.banner = "Usage: csgolytics [options]"
@@ -54,6 +58,11 @@ end
 flag_parser.parse!
 
 # check arguments
+unless flags[:logdir]
+  $stderr.puts "ERROR: --logdir flag is required"
+  exit 1
+end
+
 unless File.directory?(flags[:logdir])
   $stderr.puts "ERROR: #{flags[:logdir]} is not a directory"
   exit 1
