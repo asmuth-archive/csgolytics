@@ -12,11 +12,11 @@ class CSGOLytics::FeedUpload
     "assist" => "csgo_assists"
   }
 
-  def initialize(db)
+  def initialize(db, server_id = nil)
     @db = db
+    @server_id = server_id
     @log_parser = CSGOLytics::LogParser.new
   end
-
 
   def insert_logline(logline, event_id = nil)
     ev = @log_parser.parse(logline)
@@ -28,6 +28,10 @@ class CSGOLytics::FeedUpload
       ev[:event_id] = event_id
     else
       ev[:event_id] = Digest::SHA1.hexdigest logline
+    end
+
+    if @server_id
+      ev[:server_id] = @server_id
     end
 
     upload_event(ev)

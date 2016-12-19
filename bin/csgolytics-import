@@ -6,7 +6,6 @@ require "yaml"
 require 'optparse'
 require 'eventql'
 require 'webrick'
-#require "csgolytics/backend"
 require "csgolytics/schema_manager"
 require "csgolytics/feed_upload"
 require "csgolytics/log_reader"
@@ -19,6 +18,10 @@ flag_parser = OptionParser.new do |opts|
 
   opts.on("--logdir=PATH", "/path/to/csgo/log") do |val|
     flags[:logdir] = val
+  end
+
+  opts.on("--server_id=ID", "my_csgo_server_id") do |val|
+    flags[:server_id] = val
   end
 
   opts.on("--eventql_host=HOST", "EventQL host") do |val|
@@ -73,7 +76,7 @@ schema_manager = CSGOLytics::SchemaManager.new(
 schema_manager.migrate!
 
 # start feed upload
-feed_upload = CSGOLytics::FeedUpload.new(db)
+feed_upload = CSGOLytics::FeedUpload.new(db, flags[:server_id])
 
 # start log reader
 log_reader = CSGOLytics::LogReader.new(flags[:logdir])
