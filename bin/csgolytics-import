@@ -1,19 +1,25 @@
 #!/usr/bin/env ruby
-$: << ::File::expand_path("../", __FILE__)
+$: << ::File::expand_path("../../lib", __FILE__)
 
 require "rubygems"
 require "yaml"
 require 'optparse'
 require 'eventql'
 require 'webrick'
-require "csgolytics/backend"
+#require "csgolytics/backend"
 require "csgolytics/schema_manager"
+require "csgolytics/feed_upload"
+require "csgolytics/log_reader"
 
 # parse flags
 flags = {}
 
 flag_parser = OptionParser.new do |opts|
   opts.banner = "Usage: csgolytics [options]"
+
+  opts.on("--logdir=PATH", "/path/to/csgo/log") do |val|
+    flags[:logdir] = val
+  end
 
   opts.on("--eventql_host=HOST", "EventQL host") do |val|
     flags[:eventql_host] = val
@@ -44,18 +50,37 @@ end
 
 flag_parser.parse!
 
+# check arguments
+unless File.directory?(flags[:logdir])
+  $stderr.puts "ERROR: #{flags[:logdir]} is not a directory"
+  exit 1
+end
+
 # init eventql client
 $stderr.puts "Connecting to EventQL at #{flags[:eventql_host]}"
-evql = EventQL.connect(
+db = EventQL.connect(
   :host => flags[:eventql_host],
   :port => flags[:eventql_port],
   :database => flags[:eventql_database],
   :auth_token => flags[:eventql_auth_token]
 )
 
-# start backend
-backend = CSGOLytics::Backend.new(evql, config)
-trap("INT") { backend.shutdown }
-backend.start
+# migrate database
+schema_manager = CSGOLytics::SchemaManager.new(
+    db,
+    ::File::expand_path("../../db", __FILE__))
+
+schema_manager.migrate!
+
+# start feed upload
+feed_upload = CSGOLytics::FeedUpload.new(db)
+
+# start log reader
+log_reader = CSGOLytics::LogReader.new(flags[:logdir])
+log_reader.on_logline do |l|
+  feed_upload.insert_logline(l)
+end
+
+log_reader.start
 
 

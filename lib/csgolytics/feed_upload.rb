@@ -1,4 +1,5 @@
 require "securerandom"
+require "csgolytics/log_parser"
 
 module CSGOLytics; end
 
@@ -7,16 +8,23 @@ class CSGOLytics::FeedUpload
   PARTITION_SIZE = 3600 * 24
 
   EVENT_TABLE_MAP = {
-    "kill" => "csgo_kills" 
+    "kill" => "csgo_kills"
   }
 
-  def initialize(db, dispatch)
+  def initialize(db)
     @db = db
-
-    dispatch.subscribe do |ev|
-      upload_event(ev)
-    end
+    @log_parser = CSGOLytics::LogParser.new
   end
+
+
+  def insert_logline(logline)
+    ev = @log_parser.parse(logline)
+    return unless ev
+
+    upload_event(ev)
+  end
+
+private
 
   def upload_event(ev)
     table = EVENT_TABLE_MAP[ev[:event]]

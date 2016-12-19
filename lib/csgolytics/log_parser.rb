@@ -9,7 +9,7 @@ class CSGOLytics::LogParser
   def parse(line)
     ev = nil
     return ev if ev = parse_kill(line)
-    return ev	  
+    return ev
   end
 
 private
@@ -28,15 +28,15 @@ private
         :attacker_name => m[:attacker_name],
         :attacker_steamid => m[:attacker_steamid],
         :attacker_team => normalize_team(m[:attacker_team]),
-	:attacker_coords_x => attacker_coords[0].to_i,
-	:attacker_coords_y => attacker_coords[1].to_i,
-	:attacker_coords_z => attacker_coords[2].to_i,
+        :attacker_coords_x => attacker_coords[0].to_i,
+        :attacker_coords_y => attacker_coords[1].to_i,
+        :attacker_coords_z => attacker_coords[2].to_i,
         :victim_name => m[:victim_name],
         :victim_steamid => m[:victim_steamid],
         :victim_team => normalize_team(m[:victim_team]),
-	:victim_coords_x => victim_coords[0].to_i,
-	:victim_coords_y => victim_coords[1].to_i,
-	:victim_coords_z => victim_coords[2].to_i,
+        :victim_coords_x => victim_coords[0].to_i,
+        :victim_coords_y => victim_coords[1].to_i,
+        :victim_coords_z => victim_coords[2].to_i,
         :weapon => m[:weapon],
         :headshot => !!m[:headshot],
         :penetrated => !!m[:penetrated]
