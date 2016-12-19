@@ -22,7 +22,7 @@ CSGOLytics requires a running [EventQL](https://eventql.io/) database. To use CS
 
 #### Sending log data via logtail
 
-The preferred way of sending the CS:GO logfiles to csgolytics is by using the included `csgolytics-import` tool. To start the import tool, execute this command:
+The preferred way of importing the CS:GO logfiles is by using the included `csgolytics-import` tool. To start the import tool, execute this command:
 
     $ ./csgolytics-import \
           --logdir /path/to/csgo/server/csgo/logs \
