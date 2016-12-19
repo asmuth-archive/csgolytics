@@ -2,6 +2,7 @@ require "fileutils"
 require 'optparse'
 require 'uri'
 require 'net/http'
+require 'digest/sha1'
 
 module CSGOLytics; end
 
